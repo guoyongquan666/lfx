@@ -13,6 +13,7 @@ use think\Model;
 
 class article extends Model
 {
+<<<<<<< HEAD
     //自动事件
     protected $autoWriteTimestamp = true;
 
@@ -23,4 +24,7 @@ class article extends Model
 
     }
 
+=======
+    //
+>>>>>>> fbc347d328db6b6935da8127619b327d8fffc5f8
 }

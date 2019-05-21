@@ -53,7 +53,41 @@
 
 <script>
 
+<<<<<<< HEAD
     //todo 待完成
+=======
+    $('.ibox-content').on('click', '.children', function () {
+
+        var i = $(this);
+        var pid = i.attr('data-id');
+
+        var op = i.attr('data-op');
+
+        if (op == 'plus'){
+
+            i.attr('data-op', 'minus');
+            i.html('<i class="fa fa-minus"></i>');
+
+            $.get('', {id: pid}, function (e) {
+                if (e){
+                    $('.x'+pid).remove();
+                    i.parent().parent().after(e);
+                }
+            })
+
+        }else{
+            i.attr('data-op', 'plus');
+            i.html('<i class="fa fa-plus"></i>');
+            $('.x'+pid).remove();
+        }
+
+
+
+
+
+
+    });
+>>>>>>> fbc347d328db6b6935da8127619b327d8fffc5f8
 
 </script>
 </body>
