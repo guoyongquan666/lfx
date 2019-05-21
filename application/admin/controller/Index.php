@@ -60,7 +60,6 @@ class Index extends Controller
                 $this->error('该分类已存在');
             }
 
-<<<<<<< HEAD
             if ($pid == 0){
 
                 //顶级分类的处理
@@ -77,20 +76,13 @@ class Index extends Controller
                 $path = $parent->path .$pid.'-';
 
             }
-=======
-            $parent = category::where('id', $pid)->find();
->>>>>>> a1da57823162c11ced509335c923585c51371c1b
 
             //入库
             $data = [
                 'name'=>$name,
                 'pid' => $pid,
-<<<<<<< HEAD
                 'level' =>$level,
                 'path' => $path
-=======
-                'level' => $parent->level + 1
->>>>>>> a1da57823162c11ced509335c923585c51371c1b
             ];
             if (category::create($data)){
                 $this->success('成功');
