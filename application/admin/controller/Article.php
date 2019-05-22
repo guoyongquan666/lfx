@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: qingyun
- * Date: 19/5/21
- * Time: 下午8:03
- */
 
 namespace app\admin\controller;
 
@@ -20,7 +14,7 @@ class Article extends Controller
     public function add()
     {
         $re = $this->request;
-
+        //如果是POST请求
         if ($re->isPost()){
 
 
@@ -60,7 +54,7 @@ class Article extends Controller
 
 
         }
-
+        //如果是GET请求
         if ($re->isGet()){
 
             //获取分类信息
