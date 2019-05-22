@@ -13,12 +13,12 @@ class Article extends Controller
      */
     public function add()
     {
-        $re = $this->request;
+        $request = $this->request;
         //如果是POST请求
-        if ($re->isPost()){
+        if ($request->isPost()){
 
 
-            $data = $re->only(['title', 'category_id', 'author', 'content', 'status']);
+            $data = $request->only(['title', 'category_id', 'author', 'content', 'status']);
             //验证
             $rule = [
                 'title' => 'require|length:1,50',
@@ -55,7 +55,7 @@ class Article extends Controller
 
         }
         //如果是GET请求
-        if ($re->isGet()){
+        if ($request->isGet()){
 
             //获取分类信息
             $all = category::where('pid', 0)->all();
