@@ -32,3 +32,8 @@ Route::post('admin-article-change-status', 'admin/Article/changeStatus');
 
 Route::get('admin-list-category', 'admin/Index/categoryList');
 
+//删除文章
+Route::get('admin-list-delete', 'admin/Index/delete');
+//修改文章
+Route::get('admin-list-revise', 'admin/Index/revise');
+

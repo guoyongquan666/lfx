@@ -113,6 +113,66 @@ class Article extends Controller
 
 
     }
+    
+    
+    //删除文章
+    public function delete()
+    {
+        $request = $this->request;
 
+        $id = $request->param('id');
+
+        if (empty($id)){
+            $this->error('非法操作');
+        }
+
+        $delete = \app\admin\model\article::get($id);
+
+        if ($delete){
+             $res =  \app\admin\model\article::where('id',$id)->delete();
+            if ($res){
+                $this->success('删除成功');
+            }else{
+                $this->error('删除失败');
+            }
+        }else{
+            $this->error('非法操作');
+        }
+        
+    }
+    
+    
+    
+    //修改文章
+    public function revise()
+    {
+
+        $request = $this->request;
+        if ($request->isGet()){
+            $id = $request->param('id');
+            $article =  \app\admin\model\article::with('category')->where('id',$id)->find();
+
+            //查询当前字段pid相同的字段
+            $pid = $article['category']['pid'];
+            $category = category::where('pid',$pid)->where('id','<>',$article['category_id'])->select();
+
+            $this->assign('info',$article);
+            $this->assign('category',$category);
+            return $this->fetch();
+        }
+
+        if ($request->isPost()){
+            $data = $request->only(['title','author','content','category_id','update_time']);
+            $id = $request->param('id');
+
+            $article=new \app\admin\model\article;
+            if ($article->save($data,['id'=>$id])){
+                $this->success('修改成功',url('admin/article/lists'));
+            }else{
+                $this->error('修改失败');
+            }
+        }
+        
+    }
 
 }
