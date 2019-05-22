@@ -125,7 +125,7 @@ DDDD;
         }
     }
 
-<<<<<<< HEAD
+
     public function categoryTerr()
     {
 
@@ -161,6 +161,5 @@ DDDD;
         return $newData;
     }
 
-=======
->>>>>>> fbc347d328db6b6935da8127619b327d8fffc5f8
+
 }

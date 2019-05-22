@@ -13,6 +13,13 @@
 
 <script>
 
+    var data = JSON.parse('{$data|raw}');
+
+    $('#xxx').jstree({
+        core: {
+            data: data
+        }
+    })
     //todo 待完成
 
 </script>

@@ -18,7 +18,7 @@ Route::get('admin$', 'admin/Index/index');
 //console页
 Route::get('admin-console', 'admin/Index/console');
 Route::rule('admin-add-category', 'admin/Index/addCategory')->method('GET,POST');
-<<<<<<< HEAD
+
 Route::get('admin-list-category', 'admin/Index/categoryList');
 Route::get('admin-tree-category', 'admin/Index/categoryTree');
 
@@ -29,6 +29,6 @@ Route::rule('admin-article-add', 'admin/Article/add')->method('GET,POST');
 
 Route::post('admin-article-category', 'admin/Article/ajaxCategory');
 Route::post('admin-article-change-status', 'admin/Article/changeStatus');
-=======
+
 Route::get('admin-list-category', 'admin/Index/categoryList');
->>>>>>> fbc347d328db6b6935da8127619b327d8fffc5f8
+
