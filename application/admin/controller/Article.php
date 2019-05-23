@@ -3,7 +3,11 @@
 namespace app\admin\controller;
 
 use app\admin\model\category;
+use think\console\Table;
 use think\Controller;
+use think\Db;
+use think\Image;
+
 
 class Article extends Controller
 {
@@ -76,6 +80,7 @@ class Article extends Controller
         $pid = $this->request->param('id', 0);
         $data = category::where('pid', $pid)->select();
         return json($data);
+
 //        if ($request->isAjax()){
 //            $pid =$request->param('id',0);
 //            if ($pid != 0){
@@ -119,9 +124,14 @@ class Article extends Controller
 
 
     }
-    
-    
-    //删除文章
+
+
+    /**
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
+     *
+     * 删除文章
+     */
     public function delete()
     {
         $request = $this->request;
@@ -146,10 +156,16 @@ class Article extends Controller
         }
         
     }
-    
-    
-    
-    //修改文章
+
+
+    /**
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     *
+     * 修改文章
+     */
     public function revise()
     {
 
@@ -178,8 +194,99 @@ class Article extends Controller
                 $this->error('修改失败');
             }
         }
+    }
 
+    /**
+     * @return mixed
+     *
+     * 上传文章
+     */
+    public function upload()
+    {
+        $request = $this->request;
+
+
+        if ($request->isGet()){
+            return $this->fetch();
+        }
+
+        if ($request->isPost()){
+            $data = request()->file('upload');
+            $info = $data->validate(['size'=>10485760,'ext'=>['jpg','png','gif','txt','php','html']])->move('./static/upload');
+            if (!$info){
+                  //上传失败错误信息
+                echo $data->getError();
+
+            }
+            $name = input('post.');
+            //上传文件的原名
+            $name['name'] = $_FILES['upload']['name'];
+
+            if ($_FILES['upload']){
+                $name['path'] = $this->image();
+            }
+            if ($info == true){
+                $image = Image::open('./static/upload/');
+                //按照原图的比例生成一个最大为400*400的略缩图替换原图
+                $image->thumb(400,400)->save('./static/upload/');
+                if ($info){
+                    $res = [
+                        'error' => 0,
+                        'url' => str_replace('\\', '/','./static/upload/')
+                    ];
+                }else{
+                    $res = [
+                        'error' => 1,
+                        "massage" => $data->getError()
+                    ];
+                }
+                return json($res);
+
+               $res = Db::table('upload')->insert($name);
+               if ($res){
+                   $this->success('添加成功');
+               }else{
+                   $this->error('添加失败');
+               }
+            }
+
+
+        }
 
     }
 
+
+    /**
+     * @return mixed
+     *
+     * 获取上传文章的保存名称
+     */
+    public function image()
+    {
+        $file = $this->request->file('upload');
+
+        if ($file){
+            $info = $file->validate(['size'=>30720000,'ext'=>['jpg','png','gif','txt','php','html']])->move('./static/upload');
+            if ($info){
+                return $info->getPathname();
+            }else{
+                echo $info->getError();
+            }
+        }
+        return $this->fetch();
+    }
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+

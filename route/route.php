@@ -36,4 +36,8 @@ Route::get('admin-list-category', 'admin/Index/categoryList');
 Route::get('admin-list-delete', 'admin/Index/delete');
 //修改文章
 Route::get('admin-list-revise', 'admin/Index/revise');
+//上传文章
+Route::rule('admin-list-upload','admin/Index/upload');
+//上传图片略错图
+Route::rule('admin-list-image','admin/Index/image');
 
