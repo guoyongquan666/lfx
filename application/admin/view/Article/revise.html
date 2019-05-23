@@ -67,7 +67,7 @@
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-2">
                                 <input type="hidden" name="id" value="{$info.id}">
-                                <button class="btn btn-primary" id="btn" type="submit">确认修改</button>
+                                <button class="btn btn-primary" id="btn" type="button">修改</button>
                             </div>
                         </div>
                     </form>
@@ -82,6 +82,29 @@
 <script src="/static/ui/library/um/umeditor.js"></script>
 <script>
     var um=UM.getEditor('content');
+
+
+
+    $('#btn').click(function () {
+        // alert(1234567);
+
+
+        var data = $('#form').serialize();
+
+        layer.confirm('您确认修改吗？',{icon: 3,title:'提示'},function (E){
+             $.post('{:url("admin/Article/revise")}',data,function (e) {
+                console.log(e);
+                 if (e.code){
+                    layer.alert(e.msg,{icon:1});
+                } else {
+                    layer.alert(e.msg,{icon:2});
+              }
+
+              });
+            layer.close(E);
+         })
+    })
+
 
 
 </script>

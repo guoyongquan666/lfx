@@ -68,6 +68,7 @@
 
             $.get('', {id: pid}, function (e) {
                 if (e){
+
                     $('.x'+pid).remove();
                     i.parent().parent().after(e);
                 }
@@ -75,20 +76,12 @@
 
         }else{
             i.attr('data-op', 'plus');
+
             i.html('<i class="fa fa-plus"></i>');
             $('.x'+pid).remove();
         }
 
-
-
-
-
-
     });
-
-    //todo 待完成
-
-
 
 
 </script>

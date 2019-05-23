@@ -69,7 +69,7 @@ class Index extends Controller
                 $parent = category::where('id', $pid)->find();
                 if (empty($parent)){
 
-                    //如果通过用户穿的pid找不到信息，说明是一个非法操作
+                    //如果通过用户传的pid找不到信息，说明是一个非法操作
                     $this->error('非法操作');
                 }
                 $level = $parent->level + 1;

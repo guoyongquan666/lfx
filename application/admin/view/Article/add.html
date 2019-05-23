@@ -99,30 +99,37 @@
 
 
     var ue = UM.getEditor('editor1');
-
+    //委托绑定
     $('#form').on('change', '.category',function () {
 
         var i = $(this);
-
+        console.log(i);
         $.post('{:url("admin/Article/ajaxCategory")}', {id: i.val()}, function (e) {
 
             console.log(e);
+            if (e){
 
-            if (e.length){
-                var str = '<div class="col-sm-2"><select class="form-control m-b category" name="category_id"><option value="0">请选择分类</option>';
-                for (var j in e){
-                    var d = e[j];
-
-                    str += '<option value="'+d.id+'">'+d.name+'</option>';
-
+                console.log(e);
+                if (e.code != 0) {
+                    var str = '<div class="col-sm-2"><select class="form-control m-b category" name="category_id"><option value="0">请选择分类</option>';
+                    for(var j in e){
+                        var d = e[j];
+                        str += '<option value="'+d.id+'">'+d.name+'</option>';
+                     }
+                    str += '</select></div>';
                 }
-                str += '</select></div>';
-                i.parent().nextAll().remove();
-                i.parent().after(str);
 
-            }
+                i.parent().nextAll().remove();
+
+                if (e.length != 0){
+                   i.parent().after(str);
+                }
+           }else {
+             layer.alert(e.msg,{icon:2})
+           }
         })
     });
+
 
 
     $('#btn').click(function () {

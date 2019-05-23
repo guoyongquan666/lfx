@@ -60,23 +60,29 @@ class Article extends Controller
             //获取分类信息
             $all = category::where('pid', 0)->all();
 
+
             $this->assign('all', $all);
             return $this->fetch();
         }
+
     }
 
     /**
      * 使用ajax获取文章分类
-     * @return \think\response\Json
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
      */
     public function ajaxCategory()
     {
+        $request = $this->request;
         $pid = $this->request->param('id', 0);
         $data = category::where('pid', $pid)->select();
         return json($data);
+//        if ($request->isAjax()){
+//            $pid =$request->param('id',0);
+//            if ($pid != 0){
+//                $data = category::where('pid',$pid)->select();
+//                return json($data);
+//            }
+//        }
     }
 
 
@@ -86,7 +92,7 @@ class Article extends Controller
     public function lists()
     {
         $list = \app\admin\model\article::with('category')->order('create_time DESC')->paginate(2);
-//        print_r($list);
+
         $this->assign('list', $list);
         return $this->fetch();
     }
@@ -172,7 +178,8 @@ class Article extends Controller
                 $this->error('修改失败');
             }
         }
-        
+
+
     }
 
 }
