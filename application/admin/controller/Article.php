@@ -96,7 +96,7 @@ class Article extends Controller
      */
     public function lists()
     {
-        $list = \app\admin\model\article::with('category')->order('create_time DESC')->paginate(2);
+        $list = \app\admin\model\article::with('category')->order('create_time DESC')->paginate(6);
 
         $this->assign('list', $list);
         return $this->fetch();
@@ -174,6 +174,10 @@ class Article extends Controller
             $id = $request->param('id');
             $article =  \app\admin\model\article::with('category')->where('id',$id)->find();
 
+            $path = '/'.$article->minthumb;
+            $this->assign('path',$path);
+
+
             //查询当前字段pid相同的字段
             $pid = $article['category']['pid'];
             $category = category::where('pid',$pid)->where('id','<>',$article['category_id'])->select();
@@ -184,8 +188,27 @@ class Article extends Controller
         }
 
         if ($request->isPost()){
-            $data = $request->only(['title','author','content','category_id','update_time']);
+            $data = $request->only(['title','author','content','category_id','update_time','thumb','minthumb']);
             $id = $request->param('id');
+
+            $file = $this->request->file('picker');
+
+            $info = $file->move('static/uploads/',true,false);
+//            exit();
+            if ($info) {
+
+
+                //含有路径信息的文件名
+                $pathh = $info->getPathname();
+                //缩略图保存路径
+                $min = $info->getPath() . '/min' . $info->getFilename();
+
+                $im = \think\Image::open($pathh);
+
+                //生成缩略图
+                $im->thumb(60, 60, \think\Image::THUMB_CENTER)->save($min);
+                return json(['code' => 1, 'thumb' => $pathh, 'min' => $min]);
+            }
             $article=new \app\admin\model\article;
             if ($article->save($data,['id'=>$id])){
                 $this->success('修改成功',url('admin/article/lists'));
@@ -207,7 +230,7 @@ class Article extends Controller
     {
 
         $data = $this->request->file('file');
-        $info = $data->validate(['size' =>1048576,'ext'=>'jpg,png,gif,jpeg'])->move('static/uploads/');
+        $info = $data->validate(['size' =>1048576,'ext'=>'jpg,png,gif,jpeg'])->move('static/uploads/',true,false);
 
        if ($info){
 
@@ -226,6 +249,41 @@ class Article extends Controller
        }
 
     }
+
+    public function umUploadImage()
+    {
+        $request = $this->request;
+
+        if ($request->isGet()){
+
+            $configData = file_get_contents("static/ui/library/ue/config.json");
+            $config = json_decode(preg_replace("/\/\*[\s\S]+?\*\//", "", $configData), true);
+            return json_encode($config);
+        }
+
+
+
+        if ($request->isPost()){
+            $image = $request->file('upfile');
+            $res =$image->validate(['size'=>1048567, 'ext'=>'jpg,png,gif,jpeg'])->move('static/upload/');
+            if ($res){
+
+                $info =  [
+                    "originalName" => $res->getFilename() ,
+                    "name" => $res->getSaveName() ,
+                    "url" => $res->getPathname() ,
+                    "size" => $res->getSize() ,
+                    "type" => $res->getExtension() ,
+                    "state" => 'SUCCESS'
+                ];
+
+                return json_encode($info);
+            }
+        }
+    }
+    
+    
+
 
     /**
      * @return mixed

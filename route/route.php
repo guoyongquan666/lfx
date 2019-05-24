@@ -28,6 +28,8 @@ Route::rule('admin-article-add', 'admin/Article/add')->method('GET,POST');
 //ajax获取文章分类
 Route::post('admin-article-category', 'admin/Article/ajaxCategory');
 Route::post('admin-article-change-status', 'admin/Article/changeStatus');
+Route::post('admin-article-upload-image', 'admin/Article/uploadImage');
+Route::rule('admin-article-umupload-image', 'admin/Article/umUploadImage')->method('GET,POST');
 //ajax获取文章封面
 Route::post('admin-article-upload-image', 'admin/Article/uploadImage');
 
@@ -39,6 +41,6 @@ Route::get('admin-list-delete', 'admin/Index/delete');
 Route::get('admin-list-revise', 'admin/Index/revise');
 //上传文章
 Route::rule('admin-list-upload','admin/Index/upload');
-//上传文件
+//查看图片
 Route::rule('admin-list-image','admin/Index/image');
 
