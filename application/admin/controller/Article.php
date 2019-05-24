@@ -22,7 +22,7 @@ class Article extends Controller
         if ($request->isPost()){
 
 
-            $data = $request->only(['title', 'category_id', 'author', 'content', 'status']);
+            $data = $request->only(['title', 'category_id', 'author', 'content', 'status','thumb','minthumb']);
             //验证
             $rule = [
                 'title' => 'require|length:1,50',
@@ -76,7 +76,7 @@ class Article extends Controller
      */
     public function ajaxCategory()
     {
-        $request = $this->request;
+//        $request = $this->request;
         $pid = $this->request->param('id', 0);
         $data = category::where('pid', $pid)->select();
         return json($data);
@@ -186,7 +186,6 @@ class Article extends Controller
         if ($request->isPost()){
             $data = $request->only(['title','author','content','category_id','update_time']);
             $id = $request->param('id');
-
             $article=new \app\admin\model\article;
             if ($article->save($data,['id'=>$id])){
                 $this->success('修改成功',url('admin/article/lists'));
@@ -194,6 +193,38 @@ class Article extends Controller
                 $this->error('修改失败');
             }
         }
+    }
+
+
+
+
+    /**
+     * @return \think\response\Json
+     *
+     * 图片上传服务端
+     */
+    public function  uploadImage()
+    {
+
+        $data = $this->request->file('file');
+        $info = $data->validate(['size' =>1048576,'ext'=>'jpg,png,gif,jpeg'])->move('static/uploads/');
+
+       if ($info){
+
+           //含有路径信息的文件名
+           $path = $info->getPathname();
+           //缩略图保存路径
+           $min = $info->getPath().'/min'.$info->getFilename();
+
+           $im = \think\Image::open($path);
+
+           //生成缩略图
+           $im->thumb(60, 60, \think\Image::THUMB_CENTER)->save($min);
+           return json(['code'=>1, 'thumb'=> $path, 'min'=> $min]);
+       }else{
+           return json(['code'=>0,'info'=>$data->getError()]);
+       }
+
     }
 
     /**
@@ -242,8 +273,9 @@ class Article extends Controller
                 }
                 return json($res);
 
-               $res = Db::table('upload')->insert($name);
-               if ($res){
+//               $res = Db::table('upload')->insert($name);
+                $ku = $request->only(['id','name','path']);
+               if (\app\admin\model\article::create($ku)){
                    $this->success('添加成功');
                }else{
                    $this->error('添加失败');
@@ -266,7 +298,7 @@ class Article extends Controller
         $file = $this->request->file('upload');
 
         if ($file){
-            $info = $file->validate(['size'=>30720000,'ext'=>['jpg','png','gif','txt','php','html']])->move('./static/upload');
+            $info = $file->validate(['size'=>10485760,'ext'=>['jpg','png','gif','txt','php','html']])->move('./static/upload');
             if ($info){
                 return $info->getPathname();
             }else{

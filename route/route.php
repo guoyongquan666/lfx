@@ -26,9 +26,10 @@ Route::get('admin-tree-category', 'admin/Index/categoryTree');
 Route::rule('admin-article-add', 'admin/Article/add')->method('GET,POST');
 
 //ajax获取文章分类
-
 Route::post('admin-article-category', 'admin/Article/ajaxCategory');
 Route::post('admin-article-change-status', 'admin/Article/changeStatus');
+//ajax获取文章封面
+Route::post('admin-article-upload-image', 'admin/Article/uploadImage');
 
 Route::get('admin-list-category', 'admin/Index/categoryList');
 
@@ -38,6 +39,6 @@ Route::get('admin-list-delete', 'admin/Index/delete');
 Route::get('admin-list-revise', 'admin/Index/revise');
 //上传文章
 Route::rule('admin-list-upload','admin/Index/upload');
-//上传图片略错图
+//上传文件
 Route::rule('admin-list-image','admin/Index/image');
 
