@@ -44,3 +44,33 @@ Route::rule('admin-list-upload','admin/Index/upload');
 //查看图片
 Route::rule('admin-list-image','admin/Index/image');
 
+/**
+ * 前台
+ */
+//首页
+Route::rule('lfx.com','Index/index/index')->method('GET,POST');
+
+
+Route::get('news/[:id]$','Index/index/news');
+//限制变量的规则，可选参数不说规则限制
+//Route::get('news/:id', 'Index/index/news')->pattern(['id'=>'\d+']);
+//Route::get('news/:id', 'Index/index/news', [], ['id'=>'\d+']);
+Route::get('news/detail/[:id]','Index/index/detail');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

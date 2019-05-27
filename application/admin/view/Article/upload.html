@@ -19,12 +19,18 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>文件上传</h5>
+                    <h5>上传文章<small></small></h5>
+                    <div class="ibox-tools">
+                        <a class="reload-btn" onclick="location.reload();">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                    </div>
                 </div>
                 <div class="ibox-content">
                     <form id="my-awesome-dropzone" class="dropzone" action="{:url('admin/article/upload')}" enctype="multipart/form-data" method="post">
-                        <input type="file" name="upload"> <br>
-                        <input type="submit" value="上传">
+                        <input type="file" name="upload" class="btn btn-file btn-group-lg ">
+                        <br>
+                        <input type="submit" class="btn btn-primary " value="上传">
                     </form>
                 </div>
             </div>
@@ -37,6 +43,7 @@
 
 
 <script>
+
 
 
 </script>

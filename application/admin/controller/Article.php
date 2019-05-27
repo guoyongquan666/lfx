@@ -3,6 +3,7 @@
 namespace app\admin\controller;
 
 use app\admin\model\category;
+use tests\ThumbTest;
 use think\console\Table;
 use think\Controller;
 use think\Db;
@@ -173,9 +174,8 @@ class Article extends Controller
         if ($request->isGet()){
             $id = $request->param('id');
             $article =  \app\admin\model\article::with('category')->where('id',$id)->find();
-
             $path = '/'.$article->minthumb;
-            $this->assign('path',$path);
+
 
 
             //查询当前字段pid相同的字段
@@ -184,6 +184,7 @@ class Article extends Controller
 
             $this->assign('info',$article);
             $this->assign('category',$category);
+            $this->assign('path',$path);
             return $this->fetch();
         }
 
@@ -191,9 +192,10 @@ class Article extends Controller
             $data = $request->only(['title','author','content','category_id','update_time','thumb','minthumb']);
             $id = $request->param('id');
 
+
             $file = $this->request->file('picker');
 
-            $info = $file->move('static/uploads/',true,false);
+            $info = $file->move('/static\/uploads/');
 //            exit();
             if ($info) {
 
@@ -282,7 +284,6 @@ class Article extends Controller
         }
     }
     
-    
 
 
     /**
@@ -300,6 +301,7 @@ class Article extends Controller
         }
 
         if ($request->isPost()){
+//            $data = $request->file('upload');
             $data = request()->file('upload');
             $info = $data->validate(['size'=>10485760,'ext'=>['jpg','png','gif','txt','php','html']])->move('./static/upload');
             if (!$info){
@@ -332,6 +334,7 @@ class Article extends Controller
                 return json($res);
 
 //               $res = Db::table('upload')->insert($name);
+
                 $ku = $request->only(['id','name','path']);
                if (\app\admin\model\article::create($ku)){
                    $this->success('添加成功');
@@ -342,9 +345,7 @@ class Article extends Controller
 
 
         }
-
     }
-
 
     /**
      * @return mixed
