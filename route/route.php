@@ -37,25 +37,32 @@ Route::get('admin-list-category', 'admin/Index/categoryList');
 
 //删除文章
 Route::get('admin-list-delete', 'admin/Index/delete');
-//修改文章
+//修改文章(有bug)
 Route::get('admin-list-revise', 'admin/Index/revise');
-//上传文章
-Route::rule('admin-list-upload','admin/Index/upload');
-//查看图片
-Route::rule('admin-list-image','admin/Index/image');
+//上传文章(未完成)
+Route::rule('admin-list-upload','admin/Index/upload')->method('GET,POST');
+//查看图片(未完成)
+Route::rule('admin-list-image','admin/Index/image')->method('GET,POST');
 
+
+
+Route::rule('admin-image/[:id]$', 'admin/Image/lists')->method('GET,POST');
+Route::rule('admin-image-add', 'admin/Image/add')->method('GET,POST');
+Route::rule('admin-image-category', 'admin/Image/getImageCategory')->method('GET,POST');
 /**
  * 前台
  */
+
 //首页
-Route::rule('lfx.com','Index/index/index')->method('GET,POST');
+Route::get('lfx', 'Index/index/index');
 
 
-Route::get('news/[:id]$','Index/index/news');
-//限制变量的规则，可选参数不说规则限制
+Route::get('news/[:id]$', 'Index/index/news');
+//限制变量的规则，可选参数不受规则限制
 //Route::get('news/:id', 'Index/index/news')->pattern(['id'=>'\d+']);
 //Route::get('news/:id', 'Index/index/news', [], ['id'=>'\d+']);
-Route::get('news/detail/[:id]','Index/index/detail');
+Route::get('news/detail/[:id]', 'Index/index/detail');
+Route::rule('about/[:id]', 'Index/index/about')->method('GET,POST');
 
 
 
