@@ -6,6 +6,11 @@
         {foreach $category as $v}
         <a {eq name="id" value="$v['id']"} class="on"{/eq} href="{:url('Index/index/about', ['id'=>$v['id']])}">{$v.name}</a>
         {/foreach}
+
+        <a href="{:url('Index/index/about')}" {eq name="id" value="0"} class="on"{/eq}>全部</a>
+        {foreach $category as $v}
+        <a {eq name="id" value="$v['id']"} class="on"{/eq} href="{:url('Index/index/about', ['id'=>$v['id']])}">{$v.name}</a>
+        {/foreach}
     </div>
 </div>
 <div class="mainbody">

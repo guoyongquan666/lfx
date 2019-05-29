@@ -3,7 +3,10 @@ namespace app\index\controller;
 
 use app\admin\model\article;
 use app\admin\model\category;
+use app\admin\model\celebrity;
+use app\admin\model\images;
 use think\Controller;
+use think\Image;
 
 class Index extends Controller
 {
@@ -91,7 +94,7 @@ class Index extends Controller
         return $this->fetch();
     }
 
-    //分类
+    //新闻详情的分类
     protected function categoryList($id){
 
         $category = category::where('pid', $id)->select();
@@ -102,6 +105,37 @@ class Index extends Controller
 
 
 
+    //产品欣赏
+    public function product()
+    {
+        $re = $this->request;
+
+        $id = $re->param('id',0);
+        if ($id==0){
+            $where =[];
+        }else{
+            $where['category_id'] = $id;
+        }
+        $this->assign('id',$id);
+
+        $image = images::where($where)->paginate(12);
+        $this->assign('imageList',$image);
+        //查询当前类的所有子分类
+        $categoryList = category::where('pid',3)->select();
+        $this->assign('categoryList',$categoryList);
+
+        return $this->fetch();
+    }
+
+    //名人代言
+    public function celebrity()
+    {
+
+
+
+
+        return $this->fetch();
+    }
 
 
 }

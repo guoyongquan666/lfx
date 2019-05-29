@@ -57,7 +57,8 @@ class Image extends Controller
             $where['category_id'] = $id;
         }
 
-        $list = images::where($where)->select();
+        $list = images::where($where)->order('create_time  desc')->select();
+//        $list = images::where('create_time')->select();
         $this->assign('list',$list);
 
         $categoryList = category::where('type',2)->select();
@@ -78,6 +79,10 @@ class Image extends Controller
 
         return json($lists);
     }
+
+
+
+
 
 
 

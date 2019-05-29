@@ -13,5 +13,15 @@ use think\Model;
 class images extends Model
 {
 
+
     //
+    protected $autoWriteTimestamp = true;
+
+    public function category()
+    {
+
+        return $this->belongsTo('images','category_id','location');
+
+    }
+
 }

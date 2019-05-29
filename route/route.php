@@ -11,7 +11,9 @@
 
 //用户登录的路由
 Route::rule('login', 'admin/Login/in')->method('GET,POST');
-
+/**
+ * 后台部分
+ */
 //后台首页
 Route::get('admin$', 'admin/Index/index');
 
@@ -44,25 +46,33 @@ Route::rule('admin-list-upload','admin/Index/upload')->method('GET,POST');
 //查看图片(未完成)
 Route::rule('admin-list-image','admin/Index/image')->method('GET,POST');
 
-
-
+//图片管理
 Route::rule('admin-image/[:id]$', 'admin/Image/lists')->method('GET,POST');
 Route::rule('admin-image-add', 'admin/Image/add')->method('GET,POST');
 Route::rule('admin-image-category', 'admin/Image/getImageCategory')->method('GET,POST');
-/**
- * 前台
- */
 
+
+
+/**
+ * 前台部分
+ */
 //首页
 Route::get('lfx', 'Index/index/index');
 
-
+//新闻中心
 Route::get('news/[:id]$', 'Index/index/news');
 //限制变量的规则，可选参数不受规则限制
 //Route::get('news/:id', 'Index/index/news')->pattern(['id'=>'\d+']);
 //Route::get('news/:id', 'Index/index/news', [], ['id'=>'\d+']);
+//新闻详情
 Route::get('news/detail/[:id]', 'Index/index/detail');
-Route::rule('about/[:id]', 'Index/index/about')->method('GET,POST');
+//关于我们
+Route::rule('about/[:id]$', 'Index/index/about')->method('GET,POST');
+//产品欣赏
+Route::rule('product', 'Index/index/product')->method('GET,POST');
+//名人代言
+Route::rule('celebrity', 'Index/index/celebrity')->method('GET,POST');
+
 
 
 

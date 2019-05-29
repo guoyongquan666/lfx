@@ -1719,7 +1719,7 @@ class Query
      * @param  mixed $listRows 每页数量
      * @return $this
      */
-    public function page($page, $listRows = null)
+    public function  page($page, $listRows = null)
     {
         if (is_null($listRows) && strpos($page, ',')) {
             list($page, $listRows) = explode(',', $page);
