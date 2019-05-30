@@ -130,11 +130,20 @@ class Index extends Controller
     //名人代言
     public function celebrity()
     {
+        $re = $this->request;
 
+        $id = $re->param('id');
+
+        $this->categoryList(31);
+        //查询名人代言下的所有子分类
+        $category = article::where('category_id',32)->select();
+        $this->assign('categoryList',$category);
+        $this->assign('id',$id);
 
 
 
         return $this->fetch();
+
     }
 
 
